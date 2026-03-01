@@ -1,0 +1,53 @@
+uint sceScfGetLanguage(void)
+
+{
+  uint uVar1;
+  long lVar2;
+  uint auStack_20 [4];
+  
+  GetOsdConfigParam(auStack_20);
+  lVar2 = FUN_00286ee0();
+  if (lVar2 == 0) {
+    GetOsdConfigParam(auStack_20);
+    if ((auStack_20[0] >> 0xd & 7) == 0) {
+      uVar1 = auStack_20[0] >> 4 & 1;
+    }
+    else {
+      uVar1 = auStack_20[0] >> 0x10 & 0x1f;
+    }
+  }
+  else {
+    uVar1 = (uint)DAT_003eb47c;
+  }
+  return uVar1;
+}
+
+bool FUN_00286ee0(void)
+
+{
+  if (DAT_003eb480 == '\0') {
+    FUN_00286e40();
+  }
+  return DAT_003eb484 == 'T';
+}
+
+undefined1 * FUN_00286e40(void)
+
+{
+  long lVar1;
+  long lVar2;
+  
+  if (DAT_003eb480 == '\0') {
+                    /* rom0:ROMVER */
+    lVar1 = sceOpen(0x40f908,1);
+    if (lVar1 == -1) {
+      scePrintf(0x40f918,0x3eb480);
+    }
+    lVar2 = sceRead(lVar1,0x3eb480,0xe);
+    if (lVar2 == -1) {
+      scePrintf(0x40f930);
+    }
+    sceClose(lVar1);
+  }
+  return &DAT_003eb480;
+}
